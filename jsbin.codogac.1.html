@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2016 by naveen052 (http://jsbin.com/codogac/1/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html ng-app="formlyExample">
+
+  <head>
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+    <script src="http://npmcdn.com/api-check@latest/dist/api-check.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
+    <script src="http://npmcdn.com/angular-formly@latest/dist/formly.js"></script>
+    <script src="http://npmcdn.com/angular-formly-templates-bootstrap@latest/dist/angular-formly-templates-bootstrap.js"></script>
+    <title>Angular Formly Example</title>
+  </head>
+
+  <body ng-controller="MainCtrl" style="padding:20px">
+    
+    <p ng-if="user.email">Email: <strong>{{user.email}}</strong>  | Password: <strong>{{user.password}}</strong></p>
+      <formly-form model="user" fields="userFields">
+        </formly-form>
+  		<button type="submit" class="btn btn-default" ng-click="onSubmit(user)">Submit</button>
+	
+  <script id="jsbin-javascript">
+var app = angular.module('formlyExample', ['formly', 'formlyBootstrap'], function config(formlyConfigProvider) {
+    // set templates here
+    formlyConfigProvider.setType({
+      name: 'custom',
+      templateUrl: 'custom.html'
+    });
+  });
+  
+
+  app.controller('MainCtrl', ["$scope", function($scope) {
+    
+    $scope.user = {}; // the model 'user'
+
+  	$scope.userFields = [
+    {
+      key: 'email',
+      type: 'input',
+      templateOptions: {
+      	required: true,
+        type: 'email',
+        label: 'Email address',
+        placeholder: 'Enter email'
+      }
+    },
+    {
+      key: 'name',
+      type: 'input',
+      templateOptions: {
+      	required: true,
+        label: 'Full name',
+        placeholder: 'Full name'
+      }
+    }
+ 	]; // fields/keys we need in the model as a list 
+
+
+    // function definition
+    function onSubmit(user) {
+      alert(JSON.stringify(user));
+    }
+    $scope.onSubmit = onSubmit;
+    
+  }]);
+</script>
+</body>
+  
+    <script type="text/ng-template" id="custom.html">
+      <div class="form-group">
+        <label for="{{::id}}">{{options.templateOptions.label}}</label>
+        <input id="{{::id}}" name="{{::id}}" class="form-control" ng-model="model[options.key]" />
+      </div>
+    </script>
+</html>
